@@ -6,9 +6,13 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 import { Category } from './category.entity';
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 
 @Table({ tableName: 'subcategories', timestamps: false })
-export class SubCategory extends Model<SubCategory> {
+export class SubCategory extends Model<
+  InferAttributes<SubCategory>,
+  InferCreationAttributes<SubCategory>
+> {
   @Column({
     type: DataType.STRING,
     allowNull: false,

@@ -1,13 +1,12 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
-const { config } = require('dotenv');
-
+import { config } from 'dotenv';
 config();
 
-const configs = {
+const configs: Record<string, SequelizeModuleOptions> = {
   development: {
     username: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'postgres',
-    database: process.env.DB_NAME || 'inventory',
+    database: process.env.DB_DATABASE || 'inventory',
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',
   },
@@ -24,9 +23,9 @@ const configs = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     dialect: 'postgres',
-    port: process.env.DB_PORT || 5432,
+    port: Number(process.env.DB_PORT) || 5432,
   },
 };
 
-export const sequelizeConfigOptions: SequelizeModuleOptions =
+export const sequelizeConfigOptions =
   configs[process.env.NODE_ENV || 'development'];

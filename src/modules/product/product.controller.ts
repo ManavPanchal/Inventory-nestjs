@@ -1,19 +1,34 @@
-import { Controller, Get, Param, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Product } from 'src/database/enitities/product.entity';
 import { ProductService } from './product.service';
+import { createProductDto } from './dto/product.dto';
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getProducts(@Req() req): Promise<Product[]> {
+  async getProducts(): Promise<Product[]> {
     return this.productService.findAll();
   }
 
   @Get(':productId')
-  getProduct(@Param('productId') productId: string): string {
-    console.log(productId);
-    return productId;
+  async getProduct(
+    @Param('productId') productId: string,
+  ): Promise<Product | null> {
+    try {
+      const product: Product | null =
+        await this.productService.findOne(productId);
+
+      return product;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  @Post()
+  async createProduct(@Body() body: createProductDto): Promise<Product | null> {
+    return this.productService.create(body);
   }
 }

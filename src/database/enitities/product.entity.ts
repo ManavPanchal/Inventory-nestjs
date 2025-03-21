@@ -9,9 +9,13 @@ import { Category } from './category.entity';
 import { Brand } from './brand.entity';
 import { SubCategory } from './subcategory.entity';
 import { Material } from './material.entity';
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 
 @Table({ tableName: 'products' }) // Define table name
-export class Product extends Model<Product> {
+export class Product extends Model<
+  InferAttributes<Product>,
+  InferCreationAttributes<Product>
+> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
