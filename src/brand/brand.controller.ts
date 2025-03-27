@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { Brand } from 'src/database/enitities/brand.entity';
 import { commonCreateDto } from 'src/common/dtos/common.dto';
@@ -13,7 +20,9 @@ export class BrandController {
   }
 
   @Get(':brandId')
-  async getBrand(@Param('brandId') brandId: string): Promise<Brand | null> {
+  async getBrand(
+    @Param('brandId', ParseIntPipe) brandId: string,
+  ): Promise<Brand | null> {
     return this.brandService.findOne(brandId);
   }
 

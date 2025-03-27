@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Product } from 'src/database/enitities/product.entity';
 import { ProductService } from './product.service';
 import { createProductDto } from './dto/product.dto';
@@ -14,7 +22,7 @@ export class ProductController {
 
   @Get(':productId')
   async getProduct(
-    @Param('productId') productId: string,
+    @Param('productId', ParseIntPipe) productId: string,
   ): Promise<Product | null> {
     try {
       const product: Product | null =
@@ -28,7 +36,9 @@ export class ProductController {
   }
 
   @Post()
-  async createProduct(@Body() body: createProductDto): Promise<Product | null> {
+  async createProduct(
+    @Body(ValidationPipe) body: createProductDto,
+  ): Promise<Product | null> {
     return this.productService.create(body);
   }
 }

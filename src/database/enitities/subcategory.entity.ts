@@ -4,6 +4,7 @@ import {
   Model,
   DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Category } from './category.entity';
 import { InferAttributes, InferCreationAttributes } from 'sequelize';
@@ -21,5 +22,6 @@ export class SubCategory extends Model<
 
   @ForeignKey(() => Category)
   @Column({ type: DataType.NUMBER, allowNull: false })
+  @BelongsTo(() => Category, { as: 'category' })
   category_id: number;
 }

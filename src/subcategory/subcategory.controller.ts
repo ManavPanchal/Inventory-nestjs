@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { SubCategory } from 'src/database/enitities/subcategory.entity';
 import { SubCategoryService } from './subcategory.service';
 import { createSubCategoryDto } from './dtos/subcategory.dto';
@@ -9,12 +16,12 @@ export class SubCategoryController {
 
   @Get()
   async getCategories(): Promise<SubCategory[]> {
-    return this.subCategoryService.findAll();
+    return this.subCategoryService.findAll({});
   }
 
   @Get(':subCategoryId')
   async getCategory(
-    @Param('subCategoryId') subCategoryId: string,
+    @Param('subCategoryId', ParseIntPipe) subCategoryId: string,
   ): Promise<SubCategory | null> {
     return this.subCategoryService.findOne(subCategoryId);
   }

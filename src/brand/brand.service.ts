@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { commonCreateDto } from 'src/common/dtos/common.dto';
@@ -32,16 +32,12 @@ export class BrandService {
   }
 
   async create(brandDetails: commonCreateDto): Promise<Brand> {
-    try {
-      const name = brandDetails.name;
-      const checkIfBrandExists = await this.findOne(undefined, name);
+    const name = brandDetails.name;
+    const checkIfBrandExists = await this.findOne(undefined, name);
 
-      if (checkIfBrandExists)
-        throw new Error(`Brand with same name: ${name} already exists`);
+    if (checkIfBrandExists)
+      throw new ConflictException(`Brand exist with name ${name}`);
 
-      return this.brandModel.create(brandDetails);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return this.brandModel.create(brandDetails);
   }
 }

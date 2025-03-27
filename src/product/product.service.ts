@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/database/enitities/product.entity';
 import { productAttributes } from './utils/constant';
@@ -39,37 +39,37 @@ export class ProductService {
       const checkIfProductExists = await this.findOne(undefined, name);
 
       if (checkIfProductExists)
-        throw new Error(`product existc with name ${name}`);
+        throw new ConflictException(`product exist with name ${name}`);
 
       const {
-        categoryId,
+        categoryId = 0,
         brandId,
-        price,
+        price = 0,
         buyingPrice,
         quantity,
         unit,
-        subCategoryId,
-        materialId,
-        extraFields,
+        subCategoryId = 0,
+        materialId = 0,
+        extraFields = '',
       } = productDetails;
 
       const newProduct = {
         name,
-        category_id: categoryId || 0,
+        category_id: categoryId,
         brand_id: brandId,
-        price: price || 0,
+        price: price,
         buying_price: buyingPrice,
         stock_quantity: quantity,
         unit,
-        sub_category_id: subCategoryId || 0,
-        material_id: materialId || 0,
-        extra_fields: extraFields ?? '',
+        sub_category_id: subCategoryId,
+        material_id: materialId,
+        extra_fields: extraFields,
       };
 
       return this.productModel.create(newProduct);
     } catch (error) {
       console.log(error);
-      return null;
+      throw error;
     }
   }
 }
