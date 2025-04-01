@@ -6,11 +6,12 @@ import { CategoryModule } from './category/category.module';
 import { BrandModule } from './brand/brand.module';
 import { SubCategoryModule } from './subcategory/subcategory.module';
 import { MaterialModule } from './material/material.module';
-import { GlobalException } from './common/filters/GlobalException.filter';
 import { AppService } from './app.service';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
+    CommonModule,
     DatabaseModule,
     ProductModule,
     SubCategoryModule,
@@ -19,6 +20,6 @@ import { AppService } from './app.service';
     MaterialModule,
   ],
   controllers: [AppController],
-  providers: [{ provide: 'APP_FILTER', useClass: GlobalException }, AppService],
+  providers: [AppService],
 })
 export class AppModule {}

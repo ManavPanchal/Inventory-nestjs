@@ -6,7 +6,6 @@ import { Category } from 'src/database/enitities/category.entity';
 import { createSubCategoryDto } from './dtos/subcategory.dto';
 import { FetchAllSubCategoriesInputDto } from './dtos/fetch-all-input-dto';
 
-@Injectable()
 export class SubCategoryService {
   constructor(
     @InjectModel(SubCategory) private subCategoryModel: typeof SubCategory,
