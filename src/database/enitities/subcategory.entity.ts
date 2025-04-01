@@ -21,7 +21,7 @@ export class SubCategory extends Model<
   name: string;
 
   @ForeignKey(() => Category)
-  @Column({ type: DataType.NUMBER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   @BelongsTo(() => Category, { as: 'category' })
   category_id: number;
 }

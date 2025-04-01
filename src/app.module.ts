@@ -8,11 +8,13 @@ import { SubCategoryModule } from './subcategory/subcategory.module';
 import { MaterialModule } from './material/material.module';
 import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
+import { AuthMoule } from './auth/auth.module';
 
 @Module({
   imports: [
     CommonModule,
     DatabaseModule,
+    AuthMoule,
     ProductModule,
     SubCategoryModule,
     CategoryModule,

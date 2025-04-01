@@ -1,6 +1,6 @@
 import { DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
-import { USER_ROLE } from 'src/User/user.utils';
+import { USER_ROLE } from 'src/auth/user/user.utils';
 
 @Table({ tableName: 'users', timestamps: true })
 export class User extends Model<

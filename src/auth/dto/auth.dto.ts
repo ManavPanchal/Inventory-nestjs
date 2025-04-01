@@ -1,4 +1,5 @@
 import { IsEmail, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import { AtLeastOne } from 'src/common/dtos/at-least-one.decorator';
 
 export class LoginRequestDto {
   @IsPhoneNumber()

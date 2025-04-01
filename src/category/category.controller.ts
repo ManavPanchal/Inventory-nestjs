@@ -82,9 +82,9 @@ export class CategoryController {
     return responsePayload;
   }
 
-  @Patch(':categoryId')
+  @Patch(':id')
   async updateCategory(
-    @Param('categoryId', ParseIntPipe) categoryId: number,
+    @Param('id', ParseIntPipe) categoryId: number,
     @Body(ValidationPipe) body: commonUpdateDto,
   ): Promise<Category | null> {
     return await this.categoryService.update(categoryId, body);
