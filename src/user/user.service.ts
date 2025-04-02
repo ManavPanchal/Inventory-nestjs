@@ -3,17 +3,23 @@ import { InjectModel } from '@nestjs/sequelize';
 import { WhereOptions } from 'sequelize';
 import { User } from 'src/database/enitities/user.entity';
 import { UserCreateDto } from './user.dto';
-import { USER_ROLE } from './user.utils';
+import { DEFAULT_USER_ATTRIBUTES, USER_ROLE } from './user.utils';
 import { hash } from 'src/auth/auth.util';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User) private readonly UserModel: typeof User) {}
 
-  get(userId?: string | number, where?: WhereOptions<User>) {
+  get(
+    userId?: string | number,
+    where?: WhereOptions<User>,
+    attributes: string[] = DEFAULT_USER_ATTRIBUTES,
+  ) {
+    if (userId) where = { id: userId, ...where };
+
     return this.UserModel.findOne({
-      where: { id: userId, ...where },
-      attributes: ['name', 'email', 'phone', 'role'],
+      where,
+      attributes,
     });
   }
 

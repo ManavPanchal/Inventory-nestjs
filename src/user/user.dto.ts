@@ -1,6 +1,9 @@
-import { IsString, IsOptional, IsEmail, IsPhoneNumber } from 'class-validator';
+import { IsString, IsOptional, IsEmail, Matches } from 'class-validator';
 
 export class UserCreateDto {
+  @IsString()
+  id: string;
+
   @IsString()
   name: string;
 
@@ -8,7 +11,7 @@ export class UserCreateDto {
   @IsOptional()
   email: string;
 
-  @IsPhoneNumber(undefined, { always: false })
+  @Matches(/^\d{10}$/, { message: 'Phone number must be exactly 10 digits' })
   phone: string;
 
   @IsString()

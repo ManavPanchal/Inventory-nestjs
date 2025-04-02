@@ -1,8 +1,7 @@
 import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
-import { UserService } from './user/user.service';
 import { LoginRequestDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
-import { UserCreateDto } from 'src/auth/user/user.dto';
+import { UserCreateDto } from 'src/user/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,11 +13,12 @@ export class AuthController {
       new ValidationPipe({
         forbidUnknownValues: true,
         forbidNonWhitelisted: true,
+        transform: true,
       }),
     )
     request: LoginRequestDto,
   ) {
-    await this.authService.login(request);
+    return await this.authService.login(request);
   }
 
   @Post('signup')
@@ -27,10 +27,11 @@ export class AuthController {
       new ValidationPipe({
         forbidUnknownValues: true,
         forbidNonWhitelisted: true,
+        transform: true,
       }),
     )
     request: UserCreateDto,
   ) {
-    await this.authService.signup(request);
+    return await this.authService.signup(request);
   }
 }

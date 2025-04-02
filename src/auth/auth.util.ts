@@ -1,6 +1,7 @@
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import { config } from 'dotenv';
-import { USER_ROLE } from 'src/auth/user/user.utils';
+import { USER_ROLE } from 'src/user/user.utils';
+import * as jwt from 'jsonwebtoken';
 config();
 
 interface User {
@@ -15,10 +16,13 @@ export const hash = async (plainText: string) => {
   return bcrypt.hash(plainText, saltRounds);
 };
 
-// eslint-disable-next-line no-shadow
 export const compare = async (plainText: string, hash: string) =>
   bcrypt.compare(plainText, hash);
 
-// export const getToken = async (user: Partial<User>) => {
-//   const token = jwt.sign();
-// };
+export const getToken = (payload: Partial<User>) => {
+  console.log(payload);
+
+  return jwt.sign({ ...payload }, process.env.JWT_SECRET as string, {
+    expiresIn: '1h',
+  });
+};

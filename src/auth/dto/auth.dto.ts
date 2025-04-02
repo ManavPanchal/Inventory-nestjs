@@ -1,10 +1,11 @@
-import { IsEmail, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsEmail, IsOptional, IsString, Matches } from 'class-validator';
 import { AtLeastOne } from 'src/common/dtos/at-least-one.decorator';
 
 export class LoginRequestDto {
-  @IsPhoneNumber()
+  @Matches(/^\d{10}$/, { message: 'Phone number must be exactly 10 digits' })
   @AtLeastOne('email', { message: 'Either phone or email must be provided' })
-  phone: string;
+  phone!: string;
 
   @IsEmail()
   @IsOptional()
