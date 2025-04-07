@@ -5,12 +5,15 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { SubCategory } from 'src/database/enitities/subcategory.entity';
 import { SubCategoryService } from './subcategory.service';
 import { createSubCategoryDto } from './dtos/subcategory.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('sub-categories')
+@UseGuards(AuthGuard)
 export class SubCategoryController {
   constructor(private readonly subCategoryService: SubCategoryService) {}
 

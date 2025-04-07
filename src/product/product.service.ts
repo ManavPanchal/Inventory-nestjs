@@ -2,8 +2,9 @@ import { ConflictException, Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/database/enitities/product.entity';
 import { productAttributes } from './utils/constant';
-import { createProductDto } from './dto/product.dto';
+import { createProductDto, ProductDto } from './dto/product.dto';
 import { Op } from 'sequelize';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ProductService {
@@ -33,7 +34,7 @@ export class ProductService {
     }
   }
 
-  async create(productDetails: createProductDto): Promise<Product | null> {
+  async create(productDetails: createProductDto): Promise<ProductDto | null> {
     try {
       const name = productDetails.name;
       const checkIfProductExists = await this.findOne(undefined, name);
@@ -42,31 +43,31 @@ export class ProductService {
         throw new ConflictException(`product exist with name ${name}`);
 
       const {
-        categoryId = 0,
+        categoryId,
         brandId,
-        price = 0,
+        sellingPrice,
         buyingPrice,
         quantity,
         unit,
-        subCategoryId = 0,
-        materialId = 0,
+        subCategoryId,
+        materialId,
         extraFields = '',
       } = productDetails;
 
-      const newProduct = {
+      const product = await this.productModel.create({
+        categoryId,
         name,
-        category_id: categoryId,
-        brand_id: brandId,
-        price: price,
-        buying_price: buyingPrice,
-        stock_quantity: quantity,
+        sellingPrice,
+        quantity,
         unit,
-        sub_category_id: subCategoryId,
-        material_id: materialId,
-        extra_fields: extraFields,
-      };
+        brandId,
+        buyingPrice,
+        extraFields,
+        materialId,
+        subCategoryId,
+      });
 
-      return this.productModel.create(newProduct);
+      return plainToInstance(ProductDto, product.dataValues);
     } catch (error) {
       console.log(error);
       throw error;

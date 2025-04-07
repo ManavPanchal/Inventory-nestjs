@@ -5,13 +5,17 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
+  UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { Product } from 'src/database/enitities/product.entity';
 import { ProductService } from './product.service';
-import { createProductDto } from './dto/product.dto';
+import { createProductDto, ProductDto } from './dto/product.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('products')
+@UseGuards(AuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -38,7 +42,7 @@ export class ProductController {
   @Post()
   async createProduct(
     @Body(ValidationPipe) body: createProductDto,
-  ): Promise<Product | null> {
+  ): Promise<ProductDto | null> {
     return this.productService.create(body);
   }
 }

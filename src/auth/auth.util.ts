@@ -19,10 +19,5 @@ export const hash = async (plainText: string) => {
 export const compare = async (plainText: string, hash: string) =>
   bcrypt.compare(plainText, hash);
 
-export const getToken = (payload: Partial<User>) => {
-  console.log(payload);
-
-  return jwt.sign({ ...payload }, process.env.JWT_SECRET as string, {
-    expiresIn: '1h',
-  });
-};
+export const getToken = (payload: Partial<User>) =>
+  jwt.sign({ ...payload }, process.env.JWT_SECRET as string);

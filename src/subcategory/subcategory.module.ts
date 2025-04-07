@@ -9,10 +9,7 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
 @Module({
   imports: [SequelizeModule.forFeature([SubCategory, Category])],
   controllers: [SubCategoryController],
-  providers: [
-    SubCategoryService,
-    { provide: 'APP_GUARD', useClass: AuthGuard },
-  ],
+  providers: [SubCategoryService],
   exports: [SequelizeModule],
 })
 export class SubCategoryModule {}

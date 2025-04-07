@@ -1,12 +1,15 @@
-export const productAttributes: string[] = [
+import { InferAttributes } from 'sequelize';
+import { Product } from 'src/database/enitities/product.entity';
+
+export const productAttributes: Array<keyof InferAttributes<Product>> = [
   'id',
   'name',
-  'category_id',
-  'brand_id',
-  'buying_price',
-  'stock_quantity',
+  'brandId',
+  'categoryId',
+  'quantity',
+  'sellingPrice',
+  'subCategoryId',
   'unit',
-  'sub_category_id',
-  'material_id',
-  'extra_fields',
+  'extraFields',
+  'materialId',
 ];

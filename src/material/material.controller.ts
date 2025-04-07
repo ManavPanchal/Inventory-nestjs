@@ -5,13 +5,15 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { MaterialService } from './material.service';
 import { Material } from 'src/database/enitities/material.entity';
 import { commonCreateDto } from 'src/common/dtos/common.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('materials')
+@UseGuards(AuthGuard)
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 

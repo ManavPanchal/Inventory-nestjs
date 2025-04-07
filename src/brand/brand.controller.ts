@@ -5,12 +5,15 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { Brand } from 'src/database/enitities/brand.entity';
 import { commonCreateDto } from 'src/common/dtos/common.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('brands')
+@UseGuards(AuthGuard)
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
