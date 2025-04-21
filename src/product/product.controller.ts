@@ -31,6 +31,7 @@ export class ProductController {
     try {
       const product: Product | null =
         await this.productService.findOne(productId);
+      console.log(product);
 
       return product;
     } catch (error) {

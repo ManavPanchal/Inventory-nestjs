@@ -1,10 +1,11 @@
 import { ConflictException, Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/database/enitities/product.entity';
-import { productAttributes } from './utils/constant';
+import { productAttributes, ProductRelations } from './utils/constant';
 import { createProductDto, ProductDto } from './dto/product.dto';
 import { Op } from 'sequelize';
 import { plainToInstance } from 'class-transformer';
+import { Category } from 'src/database/enitities/category.entity';
 
 @Injectable()
 export class ProductService {
@@ -28,6 +29,7 @@ export class ProductService {
             : { name: { [Op.like]: `%${name}%` } }),
         },
         attributes: productAttributes,
+        include: ProductRelations,
       });
     } catch (error) {
       throw new Error(error);
